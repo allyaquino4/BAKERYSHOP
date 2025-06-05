@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Order Receipt - Sweet Delights Bakery</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600&family=Montserrat:wght@300;400;500&display=swap');
+    
+    :root {
+      --primary-color: #d4a373;
+      --secondary-color: #fefae0;
+      --accent-color: #faedcd;
+      --text-color: #5a4a42;
+      --border-color: #e9c46a;
+    }
+    
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: #f9f5f0;
+      color: var(--text-color);
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      min-height: 100vh;
+    }
+    
+    .receipt-container {
+      max-width: 600px;
+      width: 100%;
+      background: white;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+      margin: 40px 0;
+      position: relative;
+    }
+    
+    .receipt-header {
+      background: var(--primary-color);
+      color: white;
+      padding: 25px;
+      text-align: center;
+      position: relative;
+    }
+    
+    .receipt-header h1 {
+      font-family: 'Playfair Display', serif;
+      margin: 0;
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 1px;
+    }
+    
+    .receipt-header p {
+      margin: 5px 0 0;
+      font-size: 14px;
+      opacity: 0.9;
+    }
+    
+    .receipt-body {
+      padding: 30px;
+    }
+    
+    .receipt-section {
+      margin-bottom: 25px;
+      padding-bottom: 15px;
+      border-bottom: 1px dashed var(--border-color);
+    }
+    
+    .section-title {
+      font-family: 'Playfair Display', serif;
+      font-size: 18px;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .info-line {
+      margin: 5px 0;
+      font-size: 14px;
+    }
+    
+    .order-items {
+      margin: 25px 0;
+    }
+    
+    .order-items h2 {
+      font-family: 'Playfair Display', serif;
+      text-align: center;
+      margin-bottom: 20px;
+      color: var(--primary-color);
+      position: relative;
+    }
+    
+    .items-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-bottom: 20px;
+    }
+    
+    .items-table th {
+      text-align: left;
+      padding: 10px 5px;
+      border-bottom: 2px solid var(--accent-color);
+      font-weight: 500;
+    }
+    
+    .items-table td {
+      padding: 12px 5px;
+      border-bottom: 1px solid var(--accent-color);
+    }
+    
+    .items-table .item-name {
+      font-weight: 500;
+    }
+    
+    .items-table .item-price,
+    .items-table .item-total {
+      text-align: right;
+    }
+    
+    .items-table .item-qty {
+      text-align: center;
+    }
+    
+    .order-total {
+      margin-top: 20px;
+    }
+    
+    .total-row {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
+    }
+    
+    .total-row:last-child {
+      font-weight: 500;
+      font-size: 18px;
+      margin-top: 10px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-color);
+    }
+    
+    .receipt-footer {
+      text-align: center;
+      padding: 20px;
+      background: var(--accent-color);
+      font-size: 14px;
+    }
+    
+    .thank-you {
+      font-family: 'Playfair Display', serif;
+      font-size: 20px;
+      color: var(--primary-color);
+      margin-bottom: 10px;
+    }
+    
+    .print-btn {
+      display: block;
+      width: 200px;
+      margin: 30px auto;
+      padding: 12px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      font-size: 16px;
+      font-weight: 500;
+      cursor: pointer;
+      transition: all 0.3s;
+    }
+    
+    .print-btn:hover {
+      background: #c08c5f;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    }
+    
+    @media print {
+      body {
+        background: none;
+        padding: 0;
+      }
+      
+      .print-btn {
+        display: none;
+      }
+      
+      .receipt-container {
+        box-shadow: none;
+        margin: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="receipt-container">
+    <div class="receipt-header">
+      <h1>Sweet Delights Bakery</h1>
+      <p>123 Baker Street, Flour City | (555) 125-4567</p>
+    </div>
+    
+    <div class="receipt-body">
+      <div class="receipt-section">
+        <div class="section-title">Order Information</div>
+        <div class="info-line" id="order-number">Order #: 20237843</div>
+        <div class="info-line" id="order-date">Date: 2025-06-20</div>
+        <div class="info-line" id="order-time">Time: 17:30</div>
+      </div>
+      
+      <div class="receipt-section">
+        <div class="section-title">Customer</div>
+        <div class="info-line" id="customer-name">Ally Aquino</div>
+        <div class="info-line" id="customer-email">chrstnily@gmail.com</div>
+        <div class="info-line" id="customer-phone">09834561596</div>
+      </div>
+      
+      <div class="order-items">
+        <h2>Your Order</h2>
+        
+        <table class="items-table" id="order-items">
+          <thead>
+            <tr>
+              <th>Item</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Total</th>
+            </tr>
+          </thead>
+          <tbody id="items-list">
+            <!-- Items will be inserted here by JavaScript -->
+          </tbody>
+        </table>
+        
+        <div class="order-total">
+          <div class="total-row">
+            <span>Subtotal:</span>
+            <span id="subtotal">$0.00</span>
+          </div>
+          <div class="total-row" id="delivery-row">
+            <span>Delivery Fee:</span>
+            <span id="delivery-fee">$5.00</span>
+          </div>
+          <div class="total-row">
+            <span>Tax (8%):</span>
+            <span id="tax">$0.00</span>
+          </div>
+          <div class="total-row">
+            <span>Total:</span>
+            <span id="total">$5.00</span>
+          </div>
+        </div>
+      </div>
+      
+      <div class="receipt-section">
+        <div class="section-title">Delivery Information</div>
+        <div class="info-line" id="delivery-mode">Mode: Delivery</div>
+        <div class="info-line" id="delivery-address">Address: Santiago Sto.Tomas City Batangas</div>
+      </div>
+      
+      <div class="receipt-section">
+        <div class="section-title">Payment</div>
+        <div class="info-line" id="payment-method">Method: Cash</div>
+      </div>
+    </div>
+    
+    <div class="receipt-footer">
+      <div class="thank-you">Thank You For Your Order!</div>
+      <p>We appreciate your business</p>
+      <p id="delivery-time">Order will be ready by: 2025-06-20 at 17:30</p>
+      <p>Please present this receipt when picking up your order</p>
+    </div>
+  </div>
+  
+  <button class="print-btn" onclick="window.print()">Print Receipt</button>
+  
+  <script>
+    document.addEventListener('DOMContentLoaded', function() {
+      // Get the order data from localStorage
+      const orderData = localStorage.getItem('bakeryOrder');
+      
+      if (orderData) {
+        try {
+          const order = JSON.parse(orderData);
+          populateReceipt(order);
+        } catch(e) {
+          console.error('Error parsing order data:', e);
+          // Use the default values already set in HTML if there's an error
+        }
+      }
+      // If no order data found, the default values in HTML will be used
+    });
+    
+    function populateReceipt(order) {
+      // Customer Information
+      if (order.customer) {
+        document.getElementById('customer-name').textContent = order.customer.name;
+        document.getElementById('customer-email').textContent = order.customer.email;
+        document.getElementById('customer-phone').textContent = order.customer.phone;
+      }
+      
+      // Order Information
+      if (order.delivery) {
+        document.getElementById('order-date').textContent = `Date: ${order.delivery.date}`;
+        document.getElementById('order-time').textContent = `Time: ${order.delivery.time}`;
+        document.getElementById('delivery-time').textContent = `Order will be ready by: ${order.delivery.date} at ${order.delivery.time}`;
+      }
+      
+      // Delivery Information
+      if (order.delivery) {
+        document.getElementById('delivery-mode').textContent = `Mode: ${order.delivery.mode === 'delivery' ? 'Delivery' : 'Pick-up'}`;
+        document.getElementById('delivery-address').textContent = order.delivery.mode === 'delivery' 
+          ? `Address: ${order.delivery.address}` 
+          : 'Address: Store Pick-up';
+      }
+      
+      // Payment Information
+      if (order.payment) {
+        document.getElementById('payment-method').textContent = `Method: ${formatPaymentMethod(order.payment.method)}`;
+      }
+      
+      // Order Items
+      if (order.items && order.items.length > 0) {
+        const itemsList = document.getElementById('items-list');
+        itemsList.innerHTML = '';
+        
+        order.items.forEach(item => {
+          const row = document.createElement('tr');
+          row.innerHTML = `
+            <td class="item-name">${item.name}</td>
+            <td class="item-qty">${item.quantity}</td>
+            <td class="item-price">${formatCurrency(item.price)}</td>
+            <td class="item-total">${formatCurrency(item.price * item.quantity)}</td>
+          `;
+          itemsList.appendChild(row);
+        });
+        
+        // Calculate totals
+        const subtotal = order.items.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+        const deliveryFee = order.delivery.mode === 'delivery' ? 5 : 0;
+        const tax = subtotal * 0.08;
+        const total = subtotal + deliveryFee + tax;
+        
+        document.getElementById('subtotal').textContent = formatCurrency(subtotal);
+        document.getElementById('delivery-fee').textContent = formatCurrency(deliveryFee);
+        document.getElementById('tax').textContent = formatCurrency(tax);
+        document.getElementById('total').textContent = formatCurrency(total);
+        
+        // Show/hide delivery fee row based on delivery mode
+        document.getElementById('delivery-row').style.display = order.delivery.mode === 'delivery' ? 'flex' : 'none';
+      }
+    }
+    
+    function formatCurrency(amount) {
+      return '$' + amount.toFixed(2);
+    }
+    
+    function formatPaymentMethod(method) {
+      const methods = {
+        'cash': 'Cash',
+        'bank': 'Bank Transfer',
+        'ewallet': 'E-Wallet'
+      };
+      return methods[method] || method;
+    }
+  </script>
+</body>
+</html>
