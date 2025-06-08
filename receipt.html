@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Receipt - Sweet Haven Bakery</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 40px;
+      background: #fffaf5;
+      color: #333;
+      max-width: 600px;
+      margin: auto;
+    }
+    h1 {
+      color: #b94505;
+      text-align: center;
+    }
+    .receipt-section {
+      margin-bottom: 20px;
+    }
+    .receipt-section h2 {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 5px;
+      margin-bottom: 10px;
+    }
+    .receipt-section p {
+      margin: 5px 0;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 10px;
+    }
+    table th, table td {
+      border: 1px solid #ddd;
+      padding: 8px;
+      text-align: left;
+    }
+    table th {
+      background-color: #f0e5da;
+    }
+    .total {
+      text-align: right;
+      font-size: 1.2em;
+      margin-top: 10px;
+    }
+    .thank-you {
+      text-align: center;
+      margin-top: 30px;
+      font-weight: bold;
+      color: #b94505;
+    }
+  </style>
+</head>
+<body>
+  <h1>Sweet Haven Bakery</h1>
+  <div class="receipt-section" id="order-summary"></div>
+  <div class="receipt-section" id="item-list"></div>
+  <div class="thank-you">Thank you for shopping with us!</div>
+
+  <script>
+    const orderData = JSON.parse(localStorage.getItem('bakeryOrder'));
+
+    if (orderData) {
+      // Customer Info
+      document.getElementById('order-summary').innerHTML = `
+        <h2>Order Summary</h2>
+        <p><strong>Order Number:</strong> ${orderData.orderNumber}</p>
+        <p><strong>Name:</strong> ${orderData.customer.name}</p>
+        <p><strong>Email:</strong> ${orderData.customer.email}</p>
+        <p><strong>Phone:</strong> ${orderData.customer.phone}</p>
+        <p><strong>Delivery Mode:</strong> ${orderData.delivery.mode}</p>
+        ${orderData.delivery.mode === 'delivery' ? `<p><strong>Address:</strong> ${orderData.delivery.address}</p>` : ''}
+        <p><strong>Date:</strong> ${orderData.delivery.date}</p>
+        <p><strong>Time:</strong> ${orderData.delivery.time}</p>
+        <p><strong>Payment Method:</strong> ${orderData.payment.method}</p>
+      `;
+
+      // Items Table
+      let total = 0;
+      let itemRows = orderData.items.map(item => {
+        const subtotal = item.price * item.quantity;
+        total += subtotal;
+        return `
+          <tr>
+            <td>${item.name}</td>
+            <td>${item.quantity}</td>
+            <td>$${item.price.toFixed(2)}</td>
+            <td>$${subtotal.toFixed(2)}</td>
+          </tr>
+        `;
+      }).join('');
+
+      document.getElementById('item-list').innerHTML = `
+        <h2>Items</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Product</th>
+              <th>Qty</th>
+              <th>Price</th>
+              <th>Subtotal</th>
+            </tr>
+          </thead>
+          <tbody>
+            ${itemRows}
+          </tbody>
+        </table>
+        <div class="total"><strong>Total: $${total.toFixed(2)}</strong></div>
+      `;
+    } else {
+      document.body.innerHTML = '<h2 style="color:red;">No receipt data found.</h2>';
+    }
+  </script>
+</body>
+</html>
